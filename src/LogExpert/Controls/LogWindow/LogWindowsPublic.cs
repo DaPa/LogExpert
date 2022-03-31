@@ -1471,9 +1471,15 @@ namespace LogExpert
 
         public ILogLine GetCurrentLine()
         {
-            if (dataGridView.CurrentRow != null && dataGridView.CurrentRow.Index != -1)
-            {
-                return _logFileReader.GetLogLine(dataGridView.CurrentRow.Index);
+            int lineNum = -1;
+            if (filterGridView.Focused && filterGridView.CurrentRow != null && filterGridView.CurrentRow.Index != -1) {
+                // ensure the external tool works from the filter view too
+                lineNum = _filterResultList[filterGridView.CurrentRow.Index];
+            } else if (dataGridView.CurrentRow != null && dataGridView.CurrentRow.Index != -1) {
+                lineNum = dataGridView.CurrentRow.Index;
+            }
+            if (lineNum > -1) {
+                return _logFileReader.GetLogLine(lineNum);
             }
             return null;
         }

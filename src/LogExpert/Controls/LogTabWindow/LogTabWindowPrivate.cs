@@ -361,7 +361,7 @@ namespace LogExpert
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            if (CurrentLogWindow != null)
+            if (CurrentLogWindow != null && Directory.Exists(CurrentLogWindow.FileName))
             {
                 FileInfo info = new FileInfo(CurrentLogWindow.FileName);
                 openFileDialog.InitialDirectory = info.DirectoryName;
@@ -632,6 +632,7 @@ namespace LogExpert
             }
 
             toolStripButtonBubbles.Checked = e.ShowBookmarkBubbles;
+            showBookmarkBubblesToolStripMenuItem.Checked = toolStripButtonBubbles.Checked;
             highlightGroupsComboBox.Text = e.HighlightGroupName;
             columnFinderToolStripMenuItem.Checked = e.ColumnFinderVisible;
 
@@ -1044,7 +1045,7 @@ namespace LogExpert
 
             if (!string.IsNullOrEmpty(entry.cmd))
             {
-                item.ToolTipText = entry.name;
+                item.ToolTipText = entry.ToLongString();
             }
         }
 
@@ -1221,6 +1222,28 @@ namespace LogExpert
             CurrentLogWindow?.SetCurrentHighlightGroup(groupName);
         }
 
+        // check if the pressed key combination is a tool-shortcut
+        public int handleShortcutKey(KeyEventArgs e)
+        {
+            int i = 0;
+            foreach (ToolEntry tool in this.Preferences.toolEntries) {
+                i++;
+                if (tool.isFavourite && tool.shortcutModifiers != null) {
+                    if (
+                        (e.Control == tool.shortcutModifiers[(int)ToolEntry.theShortcutModifiers.CtrlModifier]) &&
+                        (e.Shift == tool.shortcutModifiers[(int)ToolEntry.theShortcutModifiers.ShiftModifier]) &&
+                        (e.Alt == tool.shortcutModifiers[(int)ToolEntry.theShortcutModifiers.AltModifier])
+                       ) {
+                        if (e.KeyValue == tool.shortcutKey) {
+                            ToolButtonClick(tool);
+                            return i;
+                        }
+                    }
+                }
+            }
+            return -1;
+        }
+
         private void FillToolLauncherBar()
         {
             char[] labels = new char[]
@@ -1245,7 +1268,7 @@ namespace LogExpert
                 }
 
                 num++;
-                ToolStripMenuItem menuItem = new ToolStripMenuItem(tool.name);
+                ToolStripMenuItem menuItem = new ToolStripMenuItem(tool.ToLongString());
                 menuItem.Tag = tool;
                 SetToolIcon(tool, menuItem);
                 toolsToolStripMenuItem.DropDownItems.Add(menuItem);

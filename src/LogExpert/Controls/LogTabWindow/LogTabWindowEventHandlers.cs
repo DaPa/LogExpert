@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -394,6 +395,11 @@ namespace LogExpert
             {
                 SwitchTab(e.Shift);
             }
+            else if (handleShortcutKey(e) != -1)
+            {
+                // key handled succesfully
+                e.Handled = true;
+            }
             else
             {
                 CurrentLogWindow?.LogWindow_KeyDown(sender, e);
@@ -643,6 +649,35 @@ namespace LogExpert
 
                 bookmarkWindow.Show(dockPanel);
             }
+            showBookmarkListToolStripMenuItem.Checked = bookmarkWindow.Visible;
+            toolStripButtonShowBookmarkList.Checked = bookmarkWindow.Visible;
+        }
+        private void toolStripButtonShowBookmarkList_Click(object sender, EventArgs e)
+        {
+            showBookmarkListToolStripMenuItem_Click(sender, e);
+        }
+
+        private void toolStripButtonClearLog_Click(object sender, EventArgs e)
+        {
+            LogWindow logWindow = this.CurrentLogWindow;
+            // try to delete the content of the file
+            if (logWindow != null) {
+                string title = logWindow.Title;
+                if (File.Exists(title)) {
+                    try {
+                        File.Delete(title);
+                        FileStream fs = File.Create(title);
+                        fs.Close();
+                    } catch (Exception ex) {
+                        Debug.WriteLine(ex.ToString());
+                    }
+                }
+            }
+        }
+
+        private void deleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripButtonClearLog_Click(sender, e);
         }
 
         private void toolStripButtonOpen_Click(object sender, EventArgs e)
@@ -820,8 +855,16 @@ namespace LogExpert
         {
             if (CurrentLogWindow != null)
             {
-                CurrentLogWindow.ShowBookmarkBubbles = toolStripButtonBubbles.Checked;
+                bool isChecked = CurrentLogWindow.ShowBookmarkBubbles;
+                CurrentLogWindow.ShowBookmarkBubbles = !isChecked;
+                toolStripButtonBubbles.Checked = !isChecked;
+                showBookmarkBubblesToolStripMenuItem.Checked = !isChecked;
             }
+        }
+
+        private void showBookmarkBubblesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripButtonBubbles_Click(sender, e);
         }
 
         private void copyPathToClipboardToolStripMenuItem_Click(object sender, EventArgs e)

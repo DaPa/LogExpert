@@ -49,6 +49,10 @@ namespace LogExpert
             builder.Replace("%H", logFileInfo.Uri.Host);
             builder.Replace("%T", logFileInfo.Uri.Port.ToString());
 
+            // Avoid situations where double quotes will make external tool split the argument line
+            // Note: replacing " with \" didn't work!
+            string FullLine = logLine.FullLine.Replace('"', '\'');
+
             int sPos = 0;
             string reg;
             string replace;
@@ -58,7 +62,7 @@ namespace LogExpert
                 replace = GetNextGroup(builder, ref sPos);
                 if (reg != null && replace != null)
                 {
-                    string result = Regex.Replace(logLine.FullLine, reg, replace);
+                    string result = Regex.Replace(FullLine, reg, replace);
                     builder.Insert(sPos, result);
                 }
             } while (replace != null);

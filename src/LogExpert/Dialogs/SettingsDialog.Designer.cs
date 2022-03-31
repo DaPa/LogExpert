@@ -150,6 +150,9 @@
             this.buttonImport = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelToolShortcut = new System.Windows.Forms.Label();
+            this.textBoxToolShortcut = new System.Windows.Forms.TextBox();
+            this.buttonToolClearShortcut = new System.Windows.Forms.Button();
             this.tabControlSettings.SuspendLayout();
             this.tabPageViewSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upDownMaximumFilterEntriesDisplayed)).BeginInit();
@@ -657,7 +660,7 @@
             this.labelToolsDescription.Location = new System.Drawing.Point(364, 66);
             this.labelToolsDescription.Name = "labelToolsDescription";
             this.labelToolsDescription.Size = new System.Drawing.Size(251, 52);
-            this.labelToolsDescription.TabIndex = 6;
+            this.labelToolsDescription.TabIndex = 5;
             this.labelToolsDescription.Text = "You can configure as many tools as you want. \r\nChecked tools will appear in the i" +
     "con bar. All other tools are available in the tools menu.";
             // 
@@ -668,6 +671,7 @@
             this.buttonToolDelete.Size = new System.Drawing.Size(75, 23);
             this.buttonToolDelete.TabIndex = 2;
             this.buttonToolDelete.Text = "Remove";
+            this.toolTip.SetToolTip(this.buttonToolDelete, "Remove selected tool");
             this.buttonToolDelete.UseVisualStyleBackColor = true;
             this.buttonToolDelete.Click += new System.EventHandler(this.toolDeleteButton_Click);
             // 
@@ -678,6 +682,7 @@
             this.buttonToolAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonToolAdd.TabIndex = 1;
             this.buttonToolAdd.Text = "Add new";
+            this.toolTip.SetToolTip(this.buttonToolAdd, "Add new tool");
             this.buttonToolAdd.UseVisualStyleBackColor = true;
             this.buttonToolAdd.Click += new System.EventHandler(this.toolAddButton_Click);
             // 
@@ -688,6 +693,7 @@
             this.buttonToolDown.Size = new System.Drawing.Size(43, 23);
             this.buttonToolDown.TabIndex = 4;
             this.buttonToolDown.Text = "Down";
+            this.toolTip.SetToolTip(this.buttonToolDown, "Move selected tool down");
             this.buttonToolDown.UseVisualStyleBackColor = true;
             this.buttonToolDown.Click += new System.EventHandler(this.toolDownButton_Click);
             // 
@@ -698,6 +704,7 @@
             this.buttonToolUp.Size = new System.Drawing.Size(43, 23);
             this.buttonToolUp.TabIndex = 3;
             this.buttonToolUp.Text = "Up";
+            this.toolTip.SetToolTip(this.buttonToolUp, "Move selected tool up");
             this.buttonToolUp.UseVisualStyleBackColor = true;
             this.buttonToolUp.Click += new System.EventHandler(this.toolUpButton_Click);
             // 
@@ -712,6 +719,9 @@
             // 
             // groupBoxToolSettings
             // 
+            this.groupBoxToolSettings.Controls.Add(this.buttonToolClearShortcut);
+            this.groupBoxToolSettings.Controls.Add(this.textBoxToolShortcut);
+            this.groupBoxToolSettings.Controls.Add(this.labelToolShortcut);
             this.groupBoxToolSettings.Controls.Add(this.labelWorkingDir);
             this.groupBoxToolSettings.Controls.Add(this.buttonWorkingDir);
             this.groupBoxToolSettings.Controls.Add(this.textBoxWorkingDir);
@@ -730,7 +740,7 @@
             this.groupBoxToolSettings.Location = new System.Drawing.Point(7, 124);
             this.groupBoxToolSettings.Name = "groupBoxToolSettings";
             this.groupBoxToolSettings.Size = new System.Drawing.Size(608, 148);
-            this.groupBoxToolSettings.TabIndex = 0;
+            this.groupBoxToolSettings.TabIndex = 6;
             this.groupBoxToolSettings.TabStop = false;
             this.groupBoxToolSettings.Text = "Tool settings";
             // 
@@ -740,7 +750,7 @@
             this.labelWorkingDir.Location = new System.Drawing.Point(316, 56);
             this.labelWorkingDir.Name = "labelWorkingDir";
             this.labelWorkingDir.Size = new System.Drawing.Size(64, 13);
-            this.labelWorkingDir.TabIndex = 11;
+            this.labelWorkingDir.TabIndex = 9;
             this.labelWorkingDir.Text = "Working dir:";
             // 
             // buttonWorkingDir
@@ -748,8 +758,9 @@
             this.buttonWorkingDir.Location = new System.Drawing.Point(571, 52);
             this.buttonWorkingDir.Name = "buttonWorkingDir";
             this.buttonWorkingDir.Size = new System.Drawing.Size(30, 20);
-            this.buttonWorkingDir.TabIndex = 10;
+            this.buttonWorkingDir.TabIndex = 11;
             this.buttonWorkingDir.Text = "...";
+            this.toolTip.SetToolTip(this.buttonWorkingDir, "Browse for folder");
             this.buttonWorkingDir.UseVisualStyleBackColor = true;
             this.buttonWorkingDir.Click += new System.EventHandler(this.workingDirButton_Click);
             // 
@@ -758,7 +769,8 @@
             this.textBoxWorkingDir.Location = new System.Drawing.Point(384, 53);
             this.textBoxWorkingDir.Name = "textBoxWorkingDir";
             this.textBoxWorkingDir.Size = new System.Drawing.Size(181, 20);
-            this.textBoxWorkingDir.TabIndex = 9;
+            this.textBoxWorkingDir.TabIndex = 10;
+            this.toolTip.SetToolTip(this.textBoxWorkingDir, "The working folder for the executable to be launched");
             // 
             // buttonIcon
             // 
@@ -766,9 +778,10 @@
             this.buttonIcon.Location = new System.Drawing.Point(279, 17);
             this.buttonIcon.Name = "buttonIcon";
             this.buttonIcon.Size = new System.Drawing.Size(75, 23);
-            this.buttonIcon.TabIndex = 1;
+            this.buttonIcon.TabIndex = 2;
             this.buttonIcon.Text = "   Icon...";
             this.buttonIcon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.buttonIcon, "Icon for tool");
             this.buttonIcon.UseVisualStyleBackColor = true;
             this.buttonIcon.Click += new System.EventHandler(this.iconButton_Click);
             // 
@@ -778,7 +791,7 @@
             this.labelToolName.Location = new System.Drawing.Point(6, 22);
             this.labelToolName.Name = "labelToolName";
             this.labelToolName.Size = new System.Drawing.Size(38, 13);
-            this.labelToolName.TabIndex = 8;
+            this.labelToolName.TabIndex = 0;
             this.labelToolName.Text = "Name:";
             // 
             // labelToolColumnizerForOutput
@@ -787,7 +800,7 @@
             this.labelToolColumnizerForOutput.Location = new System.Drawing.Point(269, 120);
             this.labelToolColumnizerForOutput.Name = "labelToolColumnizerForOutput";
             this.labelToolColumnizerForOutput.Size = new System.Drawing.Size(109, 13);
-            this.labelToolColumnizerForOutput.TabIndex = 6;
+            this.labelToolColumnizerForOutput.TabIndex = 16;
             this.labelToolColumnizerForOutput.Text = "Columnizer for output:";
             // 
             // comboBoxColumnizer
@@ -796,14 +809,16 @@
             this.comboBoxColumnizer.Location = new System.Drawing.Point(384, 117);
             this.comboBoxColumnizer.Name = "comboBoxColumnizer";
             this.comboBoxColumnizer.Size = new System.Drawing.Size(181, 21);
-            this.comboBoxColumnizer.TabIndex = 7;
+            this.comboBoxColumnizer.TabIndex = 17;
+            this.toolTip.SetToolTip(this.comboBoxColumnizer, "Used for the output tab, only available if \"Pipe sysout to tab\" is enabled");
             // 
             // textBoxToolName
             // 
             this.textBoxToolName.Location = new System.Drawing.Point(72, 19);
             this.textBoxToolName.Name = "textBoxToolName";
-            this.textBoxToolName.Size = new System.Drawing.Size(200, 20);
-            this.textBoxToolName.TabIndex = 0;
+            this.textBoxToolName.Size = new System.Drawing.Size(169, 20);
+            this.textBoxToolName.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxToolName, "The name that will be used in the Tools menu and for tool bar tooltips");
             // 
             // checkBoxSysout
             // 
@@ -811,8 +826,10 @@
             this.checkBoxSysout.Location = new System.Drawing.Point(72, 119);
             this.checkBoxSysout.Name = "checkBoxSysout";
             this.checkBoxSysout.Size = new System.Drawing.Size(110, 17);
-            this.checkBoxSysout.TabIndex = 6;
+            this.checkBoxSysout.TabIndex = 15;
             this.checkBoxSysout.Text = "Pipe sysout to tab";
+            this.toolTip.SetToolTip(this.checkBoxSysout, "If checked, LogExpert will redirect all output (stdout) of the external tool to a" +
+        " tab window (a new tab will be opened)");
             this.checkBoxSysout.UseVisualStyleBackColor = true;
             this.checkBoxSysout.CheckedChanged += new System.EventHandler(this.sysoutCheckBoxA_CheckedChanged);
             // 
@@ -821,8 +838,9 @@
             this.buttonArguments.Location = new System.Drawing.Point(571, 83);
             this.buttonArguments.Name = "buttonArguments";
             this.buttonArguments.Size = new System.Drawing.Size(31, 21);
-            this.buttonArguments.TabIndex = 5;
+            this.buttonArguments.TabIndex = 14;
             this.buttonArguments.Text = "...";
+            this.toolTip.SetToolTip(this.buttonArguments, "Arguments Help");
             this.buttonArguments.UseVisualStyleBackColor = true;
             this.buttonArguments.Click += new System.EventHandler(this.argButtonA_Click);
             // 
@@ -832,7 +850,7 @@
             this.labelTool.Location = new System.Drawing.Point(6, 56);
             this.labelTool.Name = "labelTool";
             this.labelTool.Size = new System.Drawing.Size(49, 13);
-            this.labelTool.TabIndex = 4;
+            this.labelTool.TabIndex = 6;
             this.labelTool.Text = "Program:";
             // 
             // buttonTool
@@ -840,8 +858,9 @@
             this.buttonTool.Location = new System.Drawing.Point(279, 51);
             this.buttonTool.Name = "buttonTool";
             this.buttonTool.Size = new System.Drawing.Size(30, 20);
-            this.buttonTool.TabIndex = 3;
+            this.buttonTool.TabIndex = 8;
             this.buttonTool.Text = "...";
+            this.toolTip.SetToolTip(this.buttonTool, "Browse for executable");
             this.buttonTool.UseVisualStyleBackColor = true;
             this.buttonTool.Click += new System.EventHandler(this.toolButtonA_Click);
             // 
@@ -850,7 +869,8 @@
             this.textBoxTool.Location = new System.Drawing.Point(72, 52);
             this.textBoxTool.Name = "textBoxTool";
             this.textBoxTool.Size = new System.Drawing.Size(200, 20);
-            this.textBoxTool.TabIndex = 2;
+            this.textBoxTool.TabIndex = 7;
+            this.toolTip.SetToolTip(this.textBoxTool, "The path to the executable to be lauched");
             // 
             // labelArguments
             // 
@@ -858,7 +878,7 @@
             this.labelArguments.Location = new System.Drawing.Point(6, 87);
             this.labelArguments.Name = "labelArguments";
             this.labelArguments.Size = new System.Drawing.Size(60, 13);
-            this.labelArguments.TabIndex = 1;
+            this.labelArguments.TabIndex = 12;
             this.labelArguments.Text = "Arguments:";
             // 
             // textBoxArguments
@@ -866,7 +886,8 @@
             this.textBoxArguments.Location = new System.Drawing.Point(72, 84);
             this.textBoxArguments.Name = "textBoxArguments";
             this.textBoxArguments.Size = new System.Drawing.Size(493, 20);
-            this.textBoxArguments.TabIndex = 4;
+            this.textBoxArguments.TabIndex = 13;
+            this.toolTip.SetToolTip(this.textBoxArguments, " The arguments for the command line of the lauched executable");
             // 
             // tabPageColumnizers
             // 
@@ -1521,6 +1542,38 @@
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.Width = 259;
             // 
+            // labelToolShortcut
+            // 
+            this.labelToolShortcut.AutoSize = true;
+            this.labelToolShortcut.Location = new System.Drawing.Point(384, 22);
+            this.labelToolShortcut.Name = "labelToolShortcut";
+            this.labelToolShortcut.Size = new System.Drawing.Size(50, 13);
+            this.labelToolShortcut.TabIndex = 3;
+            this.labelToolShortcut.Text = "Shortcut:";
+            // 
+            // textBoxToolShortcut
+            // 
+            this.textBoxToolShortcut.CausesValidation = false;
+            this.textBoxToolShortcut.Location = new System.Drawing.Point(441, 19);
+            this.textBoxToolShortcut.Name = "textBoxToolShortcut";
+            this.textBoxToolShortcut.ShortcutsEnabled = false;
+            this.textBoxToolShortcut.Size = new System.Drawing.Size(86, 20);
+            this.textBoxToolShortcut.TabIndex = 4;
+            this.toolTip.SetToolTip(this.textBoxToolShortcut, "Keyboard shortcut for this tool, press Backspace to delete");
+            this.textBoxToolShortcut.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxToolShortcut_KeyDown);
+            this.textBoxToolShortcut.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxToolShortcut_KeyUp);
+            // 
+            // buttonToolClearShortcut
+            // 
+            this.buttonToolClearShortcut.Location = new System.Drawing.Point(533, 17);
+            this.buttonToolClearShortcut.Name = "buttonToolClearShortcut";
+            this.buttonToolClearShortcut.Size = new System.Drawing.Size(68, 23);
+            this.buttonToolClearShortcut.TabIndex = 5;
+            this.buttonToolClearShortcut.Text = "Clear";
+            this.toolTip.SetToolTip(this.buttonToolClearShortcut, "Clear keyboard shortcut");
+            this.buttonToolClearShortcut.UseVisualStyleBackColor = true;
+            this.buttonToolClearShortcut.Click += new System.EventHandler(this.buttonToolClearShortcut_Click);
+            // 
             // SettingsDialog
             // 
             this.AcceptButton = this.buttonOk;
@@ -1720,5 +1773,8 @@
         private System.Windows.Forms.Label labelMaximumFilterEntriesDisplayed;
         private System.Windows.Forms.CheckBox checkBoxAutoPick;
         private System.Windows.Forms.CheckBox checkBoxPortableMode;
+        private System.Windows.Forms.Button buttonToolClearShortcut;
+        private System.Windows.Forms.TextBox textBoxToolShortcut;
+        private System.Windows.Forms.Label labelToolShortcut;
     }
 }

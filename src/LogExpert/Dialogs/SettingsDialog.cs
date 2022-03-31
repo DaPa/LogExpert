@@ -503,6 +503,35 @@ namespace LogExpert.Dialogs
                 _selectedTool.columnizerName = comboBoxColumnizer.Text;
                 _selectedTool.sysout = checkBoxSysout.Checked;
                 _selectedTool.workingDir = textBoxWorkingDir.Text;
+
+                // Read/Update the tool's keyboard shortcut from the dialog
+                //  (ex: "A + S" for Alt + S or "C + A + S + V" for Ctrl + Alt + Shift + V)
+                _selectedTool.shortcutKey = 0;
+                for (int i = 0; i < (int)ToolEntry.theShortcutModifiers.NrOfModifiers; ++i) {
+                    _selectedTool.shortcutModifiers[i] = false;
+                }
+                string shortcut = textBoxToolShortcut.Text;
+                // extract the modifiers (C/A/S/W) and the key
+                if (shortcut.Length > 0) {
+                    string[] stringSeparators = new string[] { " + " };
+                    string[] parts = shortcut.Split(stringSeparators, 5, StringSplitOptions.None);
+                    // update the modifiers
+                    for (int i = 0; i < parts.Length - 1; ++i) {
+                        if (parts[i] == "C") {
+                            _selectedTool.shortcutModifiers[(int)ToolEntry.theShortcutModifiers.CtrlModifier] = true;
+                        } else if (parts[i] == "A") {
+                            _selectedTool.shortcutModifiers[(int)ToolEntry.theShortcutModifiers.AltModifier] = true;
+                        } else if (parts[i] == "S") {
+                            _selectedTool.shortcutModifiers[(int)ToolEntry.theShortcutModifiers.ShiftModifier] = true;
+                        } else if (parts[i] == "W") // seems this is not working
+                          {
+                            _selectedTool.shortcutModifiers[(int)ToolEntry.theShortcutModifiers.WinModifier] = true;
+                        }
+                    }
+                    Keys key = (Keys)Enum.Parse(typeof(Keys), parts[parts.Length - 1]);
+                    // update the key
+                    _selectedTool.shortcutKey = (int)key;
+                }
             }
         }
 
@@ -517,6 +546,8 @@ namespace LogExpert.Dialogs
                 checkBoxSysout.Checked = _selectedTool.sysout;
                 comboBoxColumnizer.Enabled = _selectedTool.sysout;
                 textBoxWorkingDir.Text = _selectedTool.workingDir;
+                // parsed shortcut key to be shown in the dialog
+                textBoxToolShortcut.Text = _selectedTool.shortcutText();
             }
         }
 
@@ -976,5 +1007,55 @@ namespace LogExpert.Dialogs
             #endregion
         }
 
+        private void buttonToolClearShortcut_Click(object sender, EventArgs e)
+        {
+            // clear the tool's keyboard shortcut from the dialog
+            textBoxToolShortcut.Text = "";
+            textBoxToolShortcut.Focus();
+        }
+
+        private void textBoxToolShortcut_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+            textBoxToolShortcut.Focus();
+            textBoxToolShortcut.SelectAll();
+        }
+
+        private void textBoxToolShortcut_KeyUp(object sender, KeyEventArgs e)
+        {
+            Keys[] specialkeys = {
+                                 Keys.Shift, Keys.ShiftKey, Keys.LShiftKey, Keys.RShiftKey,
+                                 Keys.Control, Keys.ControlKey, Keys.LControlKey, Keys.RControlKey,
+                                 Keys.Alt, Keys.Menu, Keys.LMenu, Keys.RMenu,
+                                 Keys.LWin, Keys.RWin, Keys.Escape, Keys.Capital, Keys.CapsLock
+                             };
+            Keys key = e.KeyCode;
+            // if special key only, get out
+            foreach (Keys specialkey in specialkeys) {
+                if (key == specialkey) {
+                    e.Handled = true;
+                    textBoxToolShortcut.Focus();
+                    textBoxToolShortcut.SelectAll();
+                    return;
+                }
+            }
+            // if Backspace: delete any shortcut
+            if (key == Keys.Back && e.Modifiers == Keys.None) {
+                e.Handled = true;
+                textBoxToolShortcut.Text = "";
+                textBoxToolShortcut.Focus();
+                return;
+            }
+            // handle the new keyboard shortcut
+            bool ctrlModif = e.Control;
+            bool shiftModif = e.Shift;
+            bool altModif = e.Alt;
+            bool winModif = false; // this doesn't work
+                                   // update the text with the processed info
+            textBoxToolShortcut.Text = (ctrlModif ? "C + " : "") + (shiftModif ? "S + " : "") + (altModif ? "A + " : "") + (winModif ? "W + " : "") + key.ToString();
+            e.Handled = true;
+            textBoxToolShortcut.Focus();
+            textBoxToolShortcut.SelectAll();
+        }
     }
 }
